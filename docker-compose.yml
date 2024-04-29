@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    container_name: project_db_container
+    volumes:
+      - project-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=db_name
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=db_user
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    networks:
+      - main-network
+
+  web:
+    build: .
+    ports:
+      - "8080:8000"
+    volumes:
+      - .:/code:delegated
+    env_file:
+      - ./.env
+    entrypoint: /bin/bash -c "python manage.py makemigrations && python manage.py migrate  && python3 manage.py collectstatic --no-input && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+    networks:
+      - main-network
+      
+volumes:
+  project-db-data: null
+
+networks:
+  main-network:
+    name: main-network
+    driver: bridge
