@@ -7,6 +7,8 @@ NOTA: Si la instalación arroja error, escribir "docker-compose down" (Sin las c
 Y luego "docker-compose up" (Sin las comillas)
 
 Eso es todo
+Ingresar a localhost:8080
+
 
 PD: El archivo productos.py es un script para agregar 50 productos de golpe.
 Si se quiere usar dicho script, tiene que ejecutar el entorno virtual. Si no, ignorar
